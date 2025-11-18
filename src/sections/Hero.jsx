@@ -1,8 +1,9 @@
 import React from 'react'
+import ComingSoon from './ComingSoon'
 
 const Hero = () => {
   return (
-     <section className="hero-section">
+    <section className="hero-section">
       <div className="size-full mask-wrapper">
         <img src="/images/hero-bg.webp" alt="background" className="scale-out" />
         <img src="/images/hero-text.webp" alt="hero-logo" className="title-logo fade-out" />
@@ -19,7 +20,7 @@ const Hero = () => {
       <div className="fake-logo-wrapper">
         <img src="/images/big-hero-text.svg" className="overlay-logo" />
       </div>
-
+      <ComingSoon/>
     </section>
   )
 }
