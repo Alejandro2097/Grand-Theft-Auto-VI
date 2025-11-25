@@ -157,12 +157,6 @@ Este proyecto es un fan-made y no está afiliado oficialmente con Rockstar Games
 - Imágenes y videos: Rockstar Games
 - Inspiración: GTA VI Trailer oficial
 
-## Contacto
 
-Para preguntas o sugerencias, puedes contactarme en:
-- GitHub: [@tu-usuario](https://github.com/tu-usuario)
-- Email: tu-email@ejemplo.com
-
----
 
 Hecho con ❤️ para la comunidad de GTA
