@@ -1,11 +1,29 @@
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import { useState, useEffect } from "react";
 
 import { useMaskSettings } from '../../constants';
 import ComingSoon from "./ComingSoon"
 
 const Hero = () => {
   const { initialMaskPos, initialMaskSize, maskPos, maskSize } = useMaskSettings();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [canClick, setCanClick] = useState(true);
+
+  useEffect(() => {
+    let scrollTimeout;
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setCanClick(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      clearTimeout(scrollTimeout);
+    };
+  }, []);
 
   useGSAP(() => {
     gsap.set('.mask-wrapper', {
@@ -24,6 +42,11 @@ const Hero = () => {
         scrub: 2.5,
         end: '+=200%',
         pin: true,
+        onUpdate: (self) => {
+          if (self.progress > 0.1) {
+            setCanClick(false);
+          }
+        }
       }
     })
 
@@ -39,26 +62,66 @@ const Hero = () => {
   });
 
   return (
-    <section className="hero-section">
-      <div className="size-full mask-wrapper">
-        <img src="/images/hero-bg.webp" alt="background" className="scale-out" />
-        <img src="/images/hero-text.webp" alt="hero-logo" className="title-logo fade-out" />
-        <img  src="/images/watch-trailer.png" alt="trailer" className="trailer-logo fade-out" />
-        <div className="play-img fade-out">
-          <img src="/images/play.png" alt="play" className="w-7 ml-1" />
+    <>
+      <section className="hero-section">
+        <div className="size-full mask-wrapper">
+          <img src="/images/hero-bg.webp" alt="background" className="scale-out" />
+          <img src="/images/hero-text.webp" alt="hero-logo" className="title-logo fade-out" />
+          <img  src="/images/watch-trailer.png" alt="trailer" className="trailer-logo fade-out" />
+          <div
+            className="play-img"
+            onClick={(e) => {
+              if (!canClick) return;
+              e.preventDefault();
+              e.stopPropagation();
+              console.log('Play button clicked - Opening modal');
+              setIsModalOpen(true);
+            }}
+            style={{
+              cursor: canClick ? 'pointer' : 'default',
+              zIndex: 200,
+              position: 'absolute',
+              pointerEvents: canClick ? 'all' : 'none',
+              opacity: canClick ? 1 : 0,
+              transition: 'opacity 0.3s ease'
+            }}
+          >
+            <img src="/images/play.png" alt="play" className="w-7 ml-1" />
+          </div>
         </div>
-      </div>
 
-      <div>
-        <img src="/images/big-hero-text.svg" alt="logo" className="size-full object-cover mask-logo" />
-      </div>
+        <div>
+          <img src="/images/big-hero-text.svg" alt="logo" className="size-full object-cover mask-logo" />
+        </div>
 
-      <div className="fake-logo-wrapper">
-        <img src="/images/big-hero-text.svg" className="overlay-logo" />
-      </div>
+        <div className="fake-logo-wrapper">
+          <img src="/images/big-hero-text.svg" className="overlay-logo" />
+        </div>
 
-      <ComingSoon />
-    </section>
+        <ComingSoon />
+      </section>
+
+      {isModalOpen && (
+        <div className="video-modal-overlay" onClick={() => setIsModalOpen(false)}>
+          <div className="video-modal-content" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close-btn" onClick={() => setIsModalOpen(false)}>
+              ✕
+            </button>
+            <div className="video-wrapper">
+              <iframe
+                width="100%"
+                height="100%"
+                src="https://www.youtube.com/embed/VQRLujxTm3c?autoplay=1"
+                title="GTA VI Trailer"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   )
 }
 
