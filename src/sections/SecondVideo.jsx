@@ -28,15 +28,15 @@ const SecondVideo = () => {
   return (
     <section className="lucia">
       <div className="h-dvh">
-        <video 
+        <video
           ref={videoRef}
           muted
           playsInline
           preload="auto"
-          src="/videos/output2.mp4"
+          src="videos/output2.mp4"
           className="size-full object-cover second-vd"
-          style={{ 
-            objectPosition: '15% 0%' 
+          style={{
+            objectPosition: '15% 0%'
           }}
         />
       </div>

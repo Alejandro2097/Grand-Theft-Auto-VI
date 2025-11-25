@@ -37,12 +37,12 @@ const Final = () => {
   return (
     <section className="final">
       <div className="final-content size-full">
-        <video 
+        <video
           ref={videoRef}
           muted
           playsInline
           preload="auto"
-          src="/videos/output3.mp4"
+          src="videos/output3.mp4"
           className="size-full object-cover"
         />
       </div>

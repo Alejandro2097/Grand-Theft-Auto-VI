@@ -29,12 +29,12 @@ const FirstVideo = () => {
   return (
     <section className="first-vd-wrapper">
       <div className="h-dvh">
-        <video 
+        <video
           ref={videoRef}
           muted
           playsInline
           preload="auto"
-          src="/videos/output1.mp4"
+          src="videos/output1.mp4"
           className="first-vd"
         />
       </div>
