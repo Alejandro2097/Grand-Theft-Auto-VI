@@ -1,6 +1,7 @@
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 
 import { useMaskSettings } from '../../constants';
 import ComingSoon from "./ComingSoon"
@@ -9,6 +10,12 @@ const Hero = () => {
   const { initialMaskPos, initialMaskSize, maskPos, maskSize } = useMaskSettings();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [canClick, setCanClick] = useState(true);
+
+  console.log('Hero render - isModalOpen:', isModalOpen, 'canClick:', canClick);
+
+  useEffect(() => {
+    console.log('Modal state changed:', isModalOpen);
+  }, [isModalOpen]);
 
   useEffect(() => {
     let scrollTimeout;
@@ -68,26 +75,29 @@ const Hero = () => {
           <img src="/images/hero-bg.webp" alt="background" className="scale-out" />
           <img src="/images/hero-text.webp" alt="hero-logo" className="title-logo fade-out" />
           <img  src="/images/watch-trailer.png" alt="trailer" className="trailer-logo fade-out" />
-          <div
-            className="play-img"
-            onClick={(e) => {
-              if (!canClick) return;
-              e.preventDefault();
-              e.stopPropagation();
-              console.log('Play button clicked - Opening modal');
-              setIsModalOpen(true);
-            }}
-            style={{
-              cursor: canClick ? 'pointer' : 'default',
-              zIndex: 200,
-              position: 'absolute',
-              pointerEvents: canClick ? 'all' : 'none',
-              opacity: canClick ? 1 : 0,
-              transition: 'opacity 0.3s ease'
-            }}
-          >
-            <img src="/images/play.png" alt="play" className="w-7 ml-1" />
-          </div>
+        </div>
+
+        <div
+          className="play-img"
+          onClick={() => {
+            console.log('CLICK DETECTED! canClick:', canClick);
+            if (!canClick) {
+              console.log('Click blocked - canClick is false');
+              return;
+            }
+            console.log('Opening modal...');
+            setIsModalOpen(true);
+          }}
+          style={{
+            cursor: 'pointer',
+            zIndex: 200,
+            position: 'absolute',
+            pointerEvents: 'auto',
+            opacity: canClick ? 1 : 0,
+            transition: 'opacity 0.3s ease'
+          }}
+        >
+          <img src="/images/play.png" alt="play" className="w-7 ml-1" style={{ pointerEvents: 'none' }} />
         </div>
 
         <div>
@@ -101,10 +111,22 @@ const Hero = () => {
         <ComingSoon />
       </section>
 
-      {isModalOpen && (
-        <div className="video-modal-overlay" onClick={() => setIsModalOpen(false)}>
+      {isModalOpen && createPortal(
+        <div
+          className="video-modal-overlay"
+          onClick={() => {
+            console.log('Closing modal from overlay');
+            setIsModalOpen(false);
+          }}
+        >
           <div className="video-modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="modal-close-btn" onClick={() => setIsModalOpen(false)}>
+            <button
+              className="modal-close-btn"
+              onClick={() => {
+                console.log('Closing modal from button');
+                setIsModalOpen(false);
+              }}
+            >
               ✕
             </button>
             <div className="video-wrapper">
@@ -119,7 +141,8 @@ const Hero = () => {
               ></iframe>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   )
