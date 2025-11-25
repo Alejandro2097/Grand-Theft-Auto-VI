@@ -3,7 +3,7 @@ import { useGSAP } from "@gsap/react";
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 
-import { useMaskSettings } from '../../constants';
+import { useMaskSettings } from '../../constants/index.js';
 import ComingSoon from "./ComingSoon"
 
 const Hero = () => {
@@ -11,14 +11,7 @@ const Hero = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [canClick, setCanClick] = useState(true);
 
-  console.log('Hero render - isModalOpen:', isModalOpen, 'canClick:', canClick);
-
   useEffect(() => {
-    console.log('Modal state changed:', isModalOpen);
-  }, [isModalOpen]);
-
-  useEffect(() => {
-    let scrollTimeout;
     const handleScroll = () => {
       if (window.scrollY > 50) {
         setCanClick(false);
@@ -28,7 +21,6 @@ const Hero = () => {
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      clearTimeout(scrollTimeout);
     };
   }, []);
 
@@ -80,12 +72,9 @@ const Hero = () => {
         <div
           className="play-img"
           onClick={() => {
-            console.log('CLICK DETECTED! canClick:', canClick);
             if (!canClick) {
-              console.log('Click blocked - canClick is false');
               return;
             }
-            console.log('Opening modal...');
             setIsModalOpen(true);
           }}
           style={{
@@ -105,7 +94,7 @@ const Hero = () => {
         </div>
 
         <div className="fake-logo-wrapper">
-          <img src="/images/big-hero-text.svg" className="overlay-logo" />
+          <img src="/images/big-hero-text.svg" alt="GTA VI logo overlay" className="overlay-logo" />
         </div>
 
         <ComingSoon />
@@ -115,7 +104,6 @@ const Hero = () => {
         <div
           className="video-modal-overlay"
           onClick={() => {
-            console.log('Closing modal from overlay');
             setIsModalOpen(false);
           }}
         >
@@ -123,7 +111,6 @@ const Hero = () => {
             <button
               className="modal-close-btn"
               onClick={() => {
-                console.log('Closing modal from button');
                 setIsModalOpen(false);
               }}
             >
