@@ -34,7 +34,7 @@ const FirstVideo = () => {
           muted
           playsInline
           preload="auto"
-          src="videos/output1.mp4"
+          src={`${import.meta.env.BASE_URL}videos/output1.mp4`}
           className="first-vd"
         />
       </div>

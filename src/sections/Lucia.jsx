@@ -28,10 +28,10 @@ const Lucia = () => {
     <section className="lucia-life">
       <div className="flex flex-col gap-5 items-end img-box lg:1/2 ps-10 mt-96">
         <div className="lucia-1">
-          <img src="images/lucia-1.webp" />
+          <img src={`${import.meta.env.BASE_URL}images/lucia-1.webp`} />
         </div>
         <div className="lucia-3">
-          <img src="images/lucia-3.webp" />
+          <img src={`${import.meta.env.BASE_URL}images/lucia-3.webp`} />
         </div>
       </div>
 
@@ -43,7 +43,7 @@ const Lucia = () => {
         </div>
 
         <div className="lucia-2">
-          <img src="images/lucia-2.webp" />
+          <img src={`${import.meta.env.BASE_URL}images/lucia-2.webp`} />
         </div>
 
         <p className="max-w-xl lg:ps-32 ps-10">More than anything, Lucia wants the good life her mom has dreamed of since their days in Liberty City — but instead of half-baked fantasies, Lucia is prepared to take matters into her own hands.</p>

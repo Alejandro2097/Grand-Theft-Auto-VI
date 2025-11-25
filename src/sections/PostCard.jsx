@@ -25,7 +25,7 @@ const PostCard = () => {
       <div className="animated-gradient-bg" />
 
       <div className="post-card-wrapper group hover:rotate-1 hover:-[1.02] transition duration-700">
-        <img src="images/overlay.webp" />
+        <img src={`${import.meta.env.BASE_URL}images/overlay.webp`} />
 
         <video
           ref={videoRef}
@@ -33,7 +33,7 @@ const PostCard = () => {
           playsInline
           autoPlay
           preload="auto"
-          src="videos/postcard-vd.mp4"
+          src={`${import.meta.env.BASE_URL}videos/postcard-vd.mp4`}
         />
 
         <button className="group-hover:bg-yellow transation duration-700">

@@ -33,7 +33,7 @@ const SecondVideo = () => {
           muted
           playsInline
           preload="auto"
-          src="videos/output2.mp4"
+          src={`${import.meta.env.BASE_URL}videos/output2.mp4`}
           className="size-full object-cover second-vd"
           style={{
             objectPosition: '15% 0%'

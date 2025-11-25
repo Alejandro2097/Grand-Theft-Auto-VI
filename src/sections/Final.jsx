@@ -42,7 +42,7 @@ const Final = () => {
           muted
           playsInline
           preload="auto"
-          src="videos/output3.mp4"
+          src={`${import.meta.env.BASE_URL}videos/output3.mp4`}
           className="size-full object-cover"
         />
       </div>

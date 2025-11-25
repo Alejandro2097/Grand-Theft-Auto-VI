@@ -21,7 +21,7 @@ const Outro = () => {
   return (
     <section className="final-message">
       <div className="h-full col-center gap-10">
-        <img src="images/logo.webp" alt="logo" className="md:w-72 w-52" />
+        <img src={`${import.meta.env.BASE_URL}images/logo.webp`} alt="logo" className="md:w-72 w-52" />
 
         <div>
           <h3 className="gradient-title">
@@ -30,8 +30,8 @@ const Outro = () => {
         </div>
 
         <div className="flex-center gap-10">
-          <img src="images/ps-logo.svg" className="md:w-32 w-20" />
-          <img src="images/x-logo.svg" className="md:w-52 w-40" />
+          <img src={`${import.meta.env.BASE_URL}images/ps-logo.svg`} className="md:w-32 w-20" />
+          <img src={`${import.meta.env.BASE_URL}images/x-logo.svg`} className="md:w-52 w-40" />
         </div>
       </div>
     </section>

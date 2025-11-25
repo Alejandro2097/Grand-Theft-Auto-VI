@@ -64,9 +64,9 @@ const Hero = () => {
     <>
       <section className="hero-section">
         <div className="size-full mask-wrapper">
-          <img src="images/hero-bg.webp" alt="background" className="scale-out" />
-          <img src="images/hero-text.webp" alt="hero-logo" className="title-logo fade-out" />
-          <img  src="images/watch-trailer.png" alt="trailer" className="trailer-logo fade-out" />
+          <img src={`${import.meta.env.BASE_URL}images/hero-bg.webp`} alt="background" className="scale-out" />
+          <img src={`${import.meta.env.BASE_URL}images/hero-text.webp`} alt="hero-logo" className="title-logo fade-out" />
+          <img  src={`${import.meta.env.BASE_URL}images/watch-trailer.png`} alt="trailer" className="trailer-logo fade-out" />
         </div>
 
         <div
@@ -86,15 +86,15 @@ const Hero = () => {
             transition: 'opacity 0.3s ease'
           }}
         >
-          <img src="images/play.png" alt="play" className="w-7 ml-1" style={{ pointerEvents: 'none' }} />
+          <img src={`${import.meta.env.BASE_URL}images/play.png`} alt="play" className="w-7 ml-1" style={{ pointerEvents: 'none' }} />
         </div>
 
         <div>
-          <img src="images/big-hero-text.svg" alt="logo" className="size-full object-cover mask-logo" />
+          <img src={`${import.meta.env.BASE_URL}images/big-hero-text.svg`} alt="logo" className="size-full object-cover mask-logo" />
         </div>
 
         <div className="fake-logo-wrapper">
-          <img src="images/big-hero-text.svg" alt="GTA VI logo overlay" className="overlay-logo" />
+          <img src={`${import.meta.env.BASE_URL}images/big-hero-text.svg`} alt="GTA VI logo overlay" className="overlay-logo" />
         </div>
 
         <ComingSoon />
