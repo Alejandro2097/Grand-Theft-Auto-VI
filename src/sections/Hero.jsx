@@ -12,6 +12,8 @@ const Hero = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [canClick, setCanClick] = useState(true);
   const isMobile = useMediaQuery({ maxWidth: 768 });
+  const isTablet = useMediaQuery({ minWidth: 769, maxWidth: 1024 });
+  const isDesktop = useMediaQuery({ minWidth: 1025 });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -27,45 +29,76 @@ const Hero = () => {
   }, []);
 
   useGSAP(() => {
-    gsap.set('.mask-wrapper', {
-      maskPosition: initialMaskPos,
-      maskSize: initialMaskSize,
-    });
+    // Animación simplificada para móvil y tablet (SIN máscara SVG)
+    if (isMobile || isTablet) {
+      gsap.set('.entrance-message', { marginTop: '0vh' });
 
-    gsap.set('.mask-logo', { marginTop: '-100vh', opacity: 0 });
-
-    gsap.set('.entrance-message', { marginTop: '0vh' });
-
-    // Configuración optimizada para móvil
-    const scrubValue = isMobile ? 1.5 : 2.5;
-    const endValue = isMobile ? '+=150%' : '+=200%';
-
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: '.hero-section',
-        start: 'top top',
-        scrub: scrubValue,
-        end: endValue,
-        pin: true,
-        anticipatePin: 1,
-        onUpdate: (self) => {
-          if (self.progress > 0.1) {
-            setCanClick(false);
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: '.hero-section',
+          start: 'top top',
+          scrub: 1,
+          end: '+=100%',
+          pin: true,
+          anticipatePin: 1,
+          onUpdate: (self) => {
+            if (self.progress > 0.1) {
+              setCanClick(false);
+            }
           }
         }
-      }
-    })
+      })
 
-    tl
-      .to('.fade-out', { opacity: 0, ease: 'power1.inOut', duration: isMobile ? 0.5 : 1 })
-      .to('.scale-out', { scale: 1, ease: 'power1.inOut' }, '<')
-      .to('.mask-wrapper', { maskSize, ease: 'power1.inOut' }, '<')
-      .to('.mask-wrapper', { opacity: 0, duration: isMobile ? 0.3 : 0.5 })
-      .to('.overlay-logo', { opacity: 1, duration: isMobile ? 0.2 : 0.3, onComplete: () => {
-        gsap.to('.overlay-logo', { opacity: 0, duration: isMobile ? 0.2 : 0.3 });
-      } }, '<')
-      .to('.entrance-message', { duration: isMobile ? 0.5 : 1, ease: 'power1.inOut', maskImage: 'radial-gradient(circle at 50% 0vh, black 50%, transparent 100%)' }, '<')
-  }, [isMobile]);
+      tl
+        .to('.fade-out', { opacity: 0, duration: 0.3, ease: 'power1.inOut' })
+        .to('.scale-out', { opacity: 0, duration: 0.3, ease: 'power1.inOut' }, '<')
+        .to('.entrance-message', {
+          duration: 0.5,
+          ease: 'power1.inOut',
+          maskImage: 'radial-gradient(circle at 50% 0vh, black 50%, transparent 100%)'
+        })
+    }
+    // Animación completa con máscara SOLO en desktop
+    else if (isDesktop) {
+      gsap.set('.mask-wrapper', {
+        maskPosition: initialMaskPos,
+        maskSize: initialMaskSize,
+      });
+
+      gsap.set('.mask-logo', { marginTop: '-100vh', opacity: 0 });
+      gsap.set('.entrance-message', { marginTop: '0vh' });
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: '.hero-section',
+          start: 'top top',
+          scrub: 2.5,
+          end: '+=200%',
+          pin: true,
+          anticipatePin: 1,
+          onUpdate: (self) => {
+            if (self.progress > 0.1) {
+              setCanClick(false);
+            }
+          }
+        }
+      })
+
+      tl
+        .to('.fade-out', { opacity: 0, ease: 'power1.inOut' })
+        .to('.scale-out', { scale: 1, ease: 'power1.inOut' }, '<')
+        .to('.mask-wrapper', { maskSize, ease: 'power1.inOut' }, '<')
+        .to('.mask-wrapper', { opacity: 0 })
+        .to('.overlay-logo', { opacity: 1, onComplete: () => {
+          gsap.to('.overlay-logo', { opacity: 0 });
+        } }, '<')
+        .to('.entrance-message', {
+          duration: 1,
+          ease: 'power1.inOut',
+          maskImage: 'radial-gradient(circle at 50% 0vh, black 50%, transparent 100%)'
+        }, '<')
+    }
+  }, [isMobile, isTablet, isDesktop, initialMaskPos, initialMaskSize, maskSize]);
 
   return (
     <>
