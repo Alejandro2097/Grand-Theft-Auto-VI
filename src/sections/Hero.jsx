@@ -2,6 +2,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
+import { useMediaQuery } from "react-responsive";
 
 import { useMaskSettings } from '../../constants/index.js';
 import ComingSoon from "./ComingSoon"
@@ -10,6 +11,7 @@ const Hero = () => {
   const { initialMaskPos, initialMaskSize, maskPos, maskSize } = useMaskSettings();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [canClick, setCanClick] = useState(true);
+  const isMobile = useMediaQuery({ maxWidth: 768 });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -34,13 +36,18 @@ const Hero = () => {
 
     gsap.set('.entrance-message', { marginTop: '0vh' });
 
+    // Configuración optimizada para móvil
+    const scrubValue = isMobile ? 1.5 : 2.5;
+    const endValue = isMobile ? '+=150%' : '+=200%';
+
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: '.hero-section',
         start: 'top top',
-        scrub: 2.5,
-        end: '+=200%',
+        scrub: scrubValue,
+        end: endValue,
         pin: true,
+        anticipatePin: 1,
         onUpdate: (self) => {
           if (self.progress > 0.1) {
             setCanClick(false);
@@ -50,15 +57,15 @@ const Hero = () => {
     })
 
     tl
-      .to('.fade-out', { opacity: 0, ease: 'power1.inOut' })
-      .to('.scale-out', { scale: 1, ease: 'power1.inOut' })
+      .to('.fade-out', { opacity: 0, ease: 'power1.inOut', duration: isMobile ? 0.5 : 1 })
+      .to('.scale-out', { scale: 1, ease: 'power1.inOut' }, '<')
       .to('.mask-wrapper', { maskSize, ease: 'power1.inOut' }, '<')
-      .to('.mask-wrapper', { opacity: 0 })
-      .to('.overlay-logo', { opacity: 1, onComplete: () => {
-        gsap.to('.overlay-logo', { opacity: 0 });
+      .to('.mask-wrapper', { opacity: 0, duration: isMobile ? 0.3 : 0.5 })
+      .to('.overlay-logo', { opacity: 1, duration: isMobile ? 0.2 : 0.3, onComplete: () => {
+        gsap.to('.overlay-logo', { opacity: 0, duration: isMobile ? 0.2 : 0.3 });
       } }, '<')
-      .to('.entrance-message', { duration: 1, ease: 'power1.inOut', maskImage: 'radial-gradient(circle at 50% 0vh, black 50%, transparent 100%)' }, '<')
-  });
+      .to('.entrance-message', { duration: isMobile ? 0.5 : 1, ease: 'power1.inOut', maskImage: 'radial-gradient(circle at 50% 0vh, black 50%, transparent 100%)' }, '<')
+  }, [isMobile]);
 
   return (
     <>

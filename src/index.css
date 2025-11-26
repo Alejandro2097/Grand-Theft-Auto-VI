@@ -32,6 +32,10 @@ body {
   overflow-x: hidden;
   font-family: "Round", sans-serif;
   background-color: black;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: pan-y;
 }
 
 main {
@@ -71,31 +75,41 @@ main {
   }
   .hero-section {
     @apply w-dvw h-dvh relative overflow-hidden;
+    -webkit-overflow-scrolling: touch;
+    will-change: transform;
 
     .scale-out {
-      @apply object-cover md:scale-125 h-full;
+      @apply object-cover md:scale-125 h-full w-full;
+      will-change: transform, opacity;
     }
     .title-logo {
-      @apply absolute h-full md:scale-125 top-0 object-cover;
+      @apply absolute h-full md:scale-125 top-0 object-cover w-full;
+      will-change: transform, opacity;
     }
     .trailer-logo {
-      @apply absolute -bottom-5 w-48 left-1/2 -translate-x-1/2;
+      @apply absolute md:-bottom-5 -bottom-3 md:w-48 w-36 left-1/2 -translate-x-1/2;
     }
     .play-img {
       @apply rounded-full md:size-28 size-20 bg-white absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex justify-center items-center;
       z-index: 200 !important;
       opacity: 1;
+      touch-action: manipulation;
     }
     .fake-logo-wrapper {
       @apply absolute z-50 xs:top-[9.5rem] sm:top-[12.8rem] md:top-[8.5rem] 2xl:top-44 3xl:top-48 left-1/2 -translate-x-1/2;
+      will-change: opacity;
     }
     .overlay-logo {
       @apply size-full object-cover opacity-0 w-60 md:w-60 2xl:w-72 3xl:w-80;
+      will-change: opacity;
     }
   }
   .first-vd-wrapper {
+    will-change: transform, opacity;
+
     .first-vd {
-      @apply size-full object-cover md:[object-position:50%_center] [object-position:75%_center];
+      @apply size-full object-cover md:[object-position:50%_center] [object-position:center_center];
+      will-change: transform;
     }
   }
   .entrance-message {
@@ -145,6 +159,11 @@ main {
   }
   .lucia {
     @apply relative;
+    will-change: transform, opacity;
+
+    video {
+      will-change: transform;
+    }
   }
   .lucia-life {
     @apply relative z-10 py-40 mt-60 flex lg:flex-row flex-col justify-between gap-5 w-dvw overflow-x-hidden;
@@ -208,9 +227,15 @@ main {
   }
   .final {
     @apply relative h-dvh overflow-hidden;
+    will-change: transform;
 
     .final-content {
       @apply scale-110;
+      will-change: transform, opacity;
+    }
+
+    video {
+      will-change: transform;
     }
   }
 
