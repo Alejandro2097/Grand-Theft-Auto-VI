@@ -38,9 +38,14 @@ const FirstVideo = () => {
           ref={videoRef}
           muted
           playsInline
-          preload="auto"
-          src={`${import.meta.env.BASE_URL}videos/output1.mp4`}
+          preload="metadata"
+          webkit-playsinline="true"
+          x5-playsinline="true"
           className="first-vd"
+          src={`${import.meta.env.BASE_URL}videos/output1.mp4`}
+          onError={(e) => {
+            console.error('FirstVideo failed to load:', e);
+          }}
         />
       </div>
     </section>

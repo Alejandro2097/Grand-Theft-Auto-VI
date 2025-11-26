@@ -41,9 +41,14 @@ const Final = () => {
           ref={videoRef}
           muted
           playsInline
-          preload="auto"
-          src={`${import.meta.env.BASE_URL}videos/output3.mp4`}
+          preload="metadata"
+          webkit-playsinline="true"
+          x5-playsinline="true"
           className="size-full object-cover"
+          src={`${import.meta.env.BASE_URL}videos/output3.mp4`}
+          onError={(e) => {
+            console.error('Final video failed to load:', e);
+          }}
         />
       </div>
     </section>

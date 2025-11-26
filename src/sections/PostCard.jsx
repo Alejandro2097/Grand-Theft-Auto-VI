@@ -32,8 +32,16 @@ const PostCard = () => {
           muted
           playsInline
           autoPlay
-          preload="auto"
+          loop
+          preload="metadata"
+          webkit-playsinline="true"
+          x5-playsinline="true"
+          className="w-full h-full object-cover"
           src={`${import.meta.env.BASE_URL}videos/postcard-vd.mp4`}
+          onError={(e) => {
+            console.error('Video failed to load:', e);
+            e.target.style.display = 'none';
+          }}
         />
 
         <button className="group-hover:bg-yellow transation duration-700">

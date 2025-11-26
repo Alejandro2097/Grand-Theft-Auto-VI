@@ -35,11 +35,16 @@ const SecondVideo = () => {
           ref={videoRef}
           muted
           playsInline
-          preload="auto"
-          src={`${import.meta.env.BASE_URL}videos/output2.mp4`}
+          preload="metadata"
+          webkit-playsinline="true"
+          x5-playsinline="true"
           className="size-full object-cover second-vd"
+          src={`${import.meta.env.BASE_URL}videos/output2.mp4`}
           style={{
             objectPosition: isMobile ? 'center center' : '15% 0%'
+          }}
+          onError={(e) => {
+            console.error('SecondVideo failed to load:', e);
           }}
         />
       </div>
