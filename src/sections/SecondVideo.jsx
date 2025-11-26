@@ -1,12 +1,15 @@
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { useRef } from "react";
+import { useMediaQuery } from "react-responsive";
 
 const SecondVideo = () => {
   const videoRef = useRef();
+  const isMobile = useMediaQuery({ maxWidth: 768 });
 
   useGSAP(() => {
-    gsap.set('.lucia', { marginTop: '-60vh', opacity: 0 });
+    const marginValue = isMobile ? '-40vh' : '-60vh';
+    gsap.set('.lucia', { marginTop: marginValue, opacity: 0 });
 
     const tl = gsap.timeline({
       scrollTrigger: {
@@ -23,7 +26,7 @@ const SecondVideo = () => {
     videoRef.current.onloadedmetadata = () => {
       tl.to(videoRef.current, { currentTime: videoRef.current.duration, duration: 3, ease: 'power1.inOut' }, '<')
     }
-  })
+  }, [isMobile])
 
   return (
     <section className="lucia">
@@ -36,7 +39,7 @@ const SecondVideo = () => {
           src={`${import.meta.env.BASE_URL}videos/output2.mp4`}
           className="size-full object-cover second-vd"
           style={{
-            objectPosition: '15% 0%'
+            objectPosition: isMobile ? 'center center' : '15% 0%'
           }}
         />
       </div>

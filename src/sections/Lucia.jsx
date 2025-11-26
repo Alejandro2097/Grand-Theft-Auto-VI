@@ -1,9 +1,15 @@
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import { useMediaQuery } from "react-responsive";
 
 const Lucia = () => {
+  const isMobile = useMediaQuery({ maxWidth: 768 });
+
   useGSAP(() => {
-    gsap.set('.lucia-life', { marginTop: '-80vh'});
+    const marginValue = isMobile ? '-50vh' : '-80vh';
+    const yValue = isMobile ? -100 : -200;
+
+    gsap.set('.lucia-life', { marginTop: marginValue});
 
     gsap.timeline({
       scrollTrigger: {
@@ -20,9 +26,9 @@ const Lucia = () => {
         start: 'top center',
         end: '80% center',
         scrub: 2
-      }, y: -200, duration: 1, ease: 'power1.inOut'
+      }, y: yValue, duration: 1, ease: 'power1.inOut'
     }, '<')
-  });
+  }, [isMobile]);
 
   return (
     <section className="lucia-life">

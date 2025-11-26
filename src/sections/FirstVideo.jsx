@@ -1,18 +1,23 @@
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { useRef } from "react"
+import { useMediaQuery } from "react-responsive";
 
 const FirstVideo = () => {
   const videoRef = useRef(null);
+  const isMobile = useMediaQuery({ maxWidth: 768 });
 
   useGSAP(() => {
-    gsap.set('.first-vd-wrapper', { marginTop: '-150vh', opacity: 0 });
+    const marginValue = isMobile ? '-100vh' : '-150vh';
+    const endValue = isMobile ? '+=150% top' : '+=200% top';
+
+    gsap.set('.first-vd-wrapper', { marginTop: marginValue, opacity: 0 });
 
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: '.first-vd-wrapper',
         start: 'top top',
-        end: '+=200% top',
+        end: endValue,
         scrub: true,
         pin: true,
       }
@@ -24,7 +29,7 @@ const FirstVideo = () => {
     videoRef.current.onloadedmetadata = () => {
       tl.to(videoRef.current, { currentTime: videoRef.current.duration, duration: 3, ease: 'power1.inOut' }, '<');
     }
-  }, []);
+  }, [isMobile]);
 
   return (
     <section className="first-vd-wrapper">
